@@ -23,9 +23,8 @@
 		<property name="msgProcessorList">
 			<list>
 				<ref bean="textMessageProcessor" />
+				<ref bean="eventMessageProcessor" />
 			</list>
 		</property>
 	</bean>
-	<bean id="textMessageProcessor" class="com.egghead.nicefood.message.text.TextMessageProcessor"></bean>
-	
 </beans>

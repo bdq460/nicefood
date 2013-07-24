@@ -13,5 +13,6 @@ public enum MessageTypeEnum {
 	link,
 	event,
 	music,
-	news;
+	news,
+	voice;
 }

@@ -13,12 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.egghead.nicefood.biz.BizEngine;
-import com.egghead.nicefood.check.Checker;
+import com.egghead.nicefood.check.WeixinMessageChecker;
 import com.egghead.nicefood.message.MessageTransformer;
 
 /**
@@ -116,6 +117,9 @@ public class ProcessServlet extends HttpServlet {
 		Map<String,Object> messageMap = null;
 		try{
 			messageMap = MessageTransformer.xml2Map(postData.toString());
+			if( messageMap == null || messageMap.isEmpty() ){
+				throw new Exception("request message map is empty!");
+			}
 		}catch (Exception e) {
 			logger.warn("xml not well format!message:["+postData.toString()+"]",e);
 			response.getWriter().print("request xml not well format!");
@@ -127,7 +131,9 @@ public class ProcessServlet extends HttpServlet {
 
 		try{
 			String resultMessage = bizEngine.process(messageMap);
-			response.getWriter().write(resultMessage);
+			if( StringUtils.isNotBlank(resultMessage) ){
+				response.getWriter().write(resultMessage);
+			}
 			response.getWriter().flush();
 		}catch (Exception e) {
 			logger.error("process message failed!message:["+postData.toString()+"]",e);
@@ -141,7 +147,7 @@ public class ProcessServlet extends HttpServlet {
 		
 		logger.debug("receive queryString [" + request.getQueryString()+ "]");
 
-		boolean isFromWX = Checker.checkSource(signature, timestamp, nonce);
+		boolean isFromWX = WeixinMessageChecker.checkSource(signature, timestamp, nonce);
 		
 		logger.debug("isFromWX:["+isFromWX+"]");
 		return isFromWX;

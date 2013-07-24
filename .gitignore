@@ -1,6 +1,13 @@
 *.class
+*.bak
 
 # Package Files #
 *.jar
 *.war
 *.ear
+
+# eclipse project Files #
+/.seetings/*
+/target
+*.project
+*.classpath
