@@ -7,7 +7,7 @@
 *.ear
 
 # eclipse project Files #
-/.seetings/*
+/.settings/*
 /target
 *.project
 *.classpath
