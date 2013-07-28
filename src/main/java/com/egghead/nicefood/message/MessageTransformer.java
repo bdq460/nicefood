@@ -26,19 +26,18 @@ public class MessageTransformer {
 		return xmlMapper.readValue(xml, Map.class);
 	}
 	
-	public static String map2Xml(Map<String, Object> map) throws JsonParseException, JsonMappingException, IOException{
+	public static String message2Xml(Object message) throws JsonParseException, JsonMappingException, IOException{
 		
-		if( map == null ){
+		if( message == null ){
 			return null;
 		}
-			
+		
 		ObjectMapper xmlMapper = new XmlMapper();
-		String xml = xmlMapper.writeValueAsString(map);
-		String startTag = "<HashMap xmlns=\"\">";
-		String endTag = "</HashMap>";
-		xml = xml.substring(startTag.length());
-		xml = xml.substring(0,xml.length() - endTag.length());
-		xml = "<xml>"+xml+"</xml>";
+		String xml = xmlMapper.writeValueAsString(message);
+		String xmlnsHead = "<xml xmlns=\"\">";
+		String xmlHead = "<xml>";
+		xml = xml.substring(xmlnsHead.length(), xml.length());
+		xml = xmlHead + xml;
 		return xml;
 	}
 }

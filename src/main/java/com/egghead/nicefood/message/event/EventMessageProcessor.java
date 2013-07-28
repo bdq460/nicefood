@@ -9,9 +9,10 @@ import org.springframework.stereotype.Component;
 import com.egghead.nicefood.Constants;
 import com.egghead.nicefood.check.FormatException;
 import com.egghead.nicefood.error.ErrorEnum;
+import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.MessageTypeEnum;
 import com.egghead.nicefood.message.processor.MessageProcessor;
-import com.egghead.nicefood.message.text.TextMessageFormer;
+import com.egghead.nicefood.message.text.TextMessage;
 
 /**
  * @author zhangjun.zyk 
@@ -24,7 +25,7 @@ public class EventMessageProcessor implements MessageProcessor{
 	Logger logger = Logger.getLogger(this.getClass());
 	
 	@Override
-	public Map<String, Object> process(Map<String, Object> message , String fromUserName) throws Exception {
+	public BaseSendMessage process(Map<String, Object> message , String fromUserName) throws Exception {
 		
 		String toUserName = fromUserName;
 		String events = (String)message.get(Constants.EVENT);
@@ -52,9 +53,9 @@ public class EventMessageProcessor implements MessageProcessor{
 			break;
 		}
 		logger.debug("responeContent:["+responeContent+"]");
-		Map<String, Object> responseMsg = null;
+		TextMessage responseMsg = null;
 		if(StringUtils.isEmpty(responeContent) == false ){
-			responseMsg = TextMessageFormer.formMessage(Constants.OPEN_USERID,toUserName,responeContent);
+			responseMsg = new TextMessage(toUserName, Constants.OPEN_USERID, 0, responeContent);
 		}
 		logger.debug("responseMsg:["+responseMsg+"]");
 		return responseMsg;

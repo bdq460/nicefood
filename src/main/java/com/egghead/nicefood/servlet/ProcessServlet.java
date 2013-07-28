@@ -85,7 +85,7 @@ public class ProcessServlet extends HttpServlet {
 		//response.setCharacterEncoding("UTF8");
 		response.setContentType("text/html;charset=UTF8");
 		
-		boolean isFromWX = checkIsFromWX(request,response);
+		boolean isFromWX = true;//checkIsFromWX(request,response);
 		if( isFromWX == false ){
 			PrintWriter writer = response.getWriter();
 			writer.write(MSG_NOT_FROM_WX);

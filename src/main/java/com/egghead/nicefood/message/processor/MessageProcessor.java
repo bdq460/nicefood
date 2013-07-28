@@ -2,6 +2,7 @@ package com.egghead.nicefood.message.processor;
 
 import java.util.Map;
 
+import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.MessageTypeEnum;
 
 /**
@@ -11,5 +12,5 @@ import com.egghead.nicefood.message.MessageTypeEnum;
  */
 public interface MessageProcessor {
 	public MessageTypeEnum fetchMessageType();
-	public Map<String,Object> process(Map<String, Object> message , String fromUserName) throws Exception;
+	public BaseSendMessage process(Map<String, Object> message , String fromUserName) throws Exception;
 }

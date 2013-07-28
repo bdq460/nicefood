@@ -2,10 +2,17 @@ package com.egghead.nicefood.message.text;
 
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.egghead.nicefood.Constants;
+import com.egghead.nicefood.command.CommandHandler;
+import com.egghead.nicefood.command.CommandHandlerFactory;
+import com.egghead.nicefood.command.CommandTypeEnum;
+import com.egghead.nicefood.command.CommandTypeParser;
+import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.MessageTypeEnum;
 import com.egghead.nicefood.message.processor.MessageProcessor;
 
@@ -19,18 +26,27 @@ public class TextMessageProcessor implements MessageProcessor{
 
 	Logger logger = Logger.getLogger(this.getClass());
 	
+	@Resource
+	CommandTypeParser commandTypeParser;
+	
+	@Resource
+	CommandHandlerFactory commandHandlerFactory;
+	
 	@Override
-	public Map<String, Object> process(Map<String, Object> message , String fromUserName) throws Exception {
+	public BaseSendMessage process(Map<String, Object> message , String fromUserName) throws Exception {
 		
 		String content = (String)message.get(Constants.CONTENT);
-		String toUserName = fromUserName;
-		String responeContent = "Hi 我已经接收到了你发出的消息'"+content+"',可惜本账号正在测试请您谅解！";
-		Map<String, Object> responseMsg = TextMessageFormer.formMessage(Constants.OPEN_USERID,toUserName,responeContent);
+		BaseSendMessage responseMsg;
+		
+		CommandTypeEnum commandType = commandTypeParser.parse(content);
+		CommandHandler commandHandler = commandHandlerFactory.fetchHandlerHandler(commandType);
+		responseMsg = commandHandler.handle(content,fromUserName,message);
 		
 		logger.debug("responseMsg:["+responseMsg+"]");
-		
 		return responseMsg;
 	}
+	
+	
 
 	@Override
 	public MessageTypeEnum fetchMessageType() {

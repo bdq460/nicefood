@@ -14,7 +14,8 @@ public enum ErrorEnum {
 	//业务错误以B开头
 	
 	//系统错误以S开头
-	ERROR_S_NO_FOUND_PROCESSOR("未找到匹配的数据处理器");
+	ERROR_S_NO_FOUND_PROCESSOR("未找到匹配的数据处理器"),
+	ERROR_S_SERVER_ERROR("后台服务错误");
 	
 	private String msg;
 	

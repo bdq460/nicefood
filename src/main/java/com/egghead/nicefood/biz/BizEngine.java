@@ -11,11 +11,13 @@ import com.egghead.nicefood.Constants;
 import com.egghead.nicefood.check.BizException;
 import com.egghead.nicefood.check.FormatException;
 import com.egghead.nicefood.check.MessageCommonChecker;
-import com.egghead.nicefood.message.MessageStore;
+import com.egghead.nicefood.error.ErrorEnum;
+import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.MessageTransformer;
 import com.egghead.nicefood.message.MessageTypeEnum;
 import com.egghead.nicefood.message.processor.MessageProcessor;
 import com.egghead.nicefood.message.processor.MessageProcessorFactory;
+import com.egghead.nicefood.message.text.TextMessage;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
@@ -53,19 +55,15 @@ public class BizEngine {
 		}
 		logger.debug("messageProcessor:" + messageProcessor.getClass().getName());
 		
-		Map<String,Object> responseMsg = null;
+		BaseSendMessage responseMsg = null;
 		try{
-			responseMsg = (Map<String,Object>)messageProcessor.process(requestMsg,fromUserName);
+			responseMsg = messageProcessor.process(requestMsg,fromUserName);
 		}catch (Exception e) {
 			logger.error("process message failed!requestMsg:["+requestMsg+"]",e);
-			responseMsg = MessageStore.SERVER_ERROR_MSG;
-			
-			responseMsg.put(Constants.TOUSERNAME, fromUserName);
-			responseMsg.put(Constants.FROMUSERNAME, Constants.OPEN_USERNAME);
-			responseMsg.put(Constants.CREATETIME, System.currentTimeMillis());
+			responseMsg = new TextMessage(fromUserName, Constants.OPEN_USERNAME, 0, ErrorEnum.ERROR_S_SERVER_ERROR.getMsg());
 		}
 		
-		String responseMsgText = MessageTransformer.map2Xml(responseMsg);		
+		String responseMsgText = MessageTransformer.message2Xml(responseMsg);
 		logger.debug("responseText:["+responseMsgText+"]");
 		return responseMsgText;
 	}
