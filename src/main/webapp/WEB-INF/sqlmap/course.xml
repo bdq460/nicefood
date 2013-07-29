@@ -1,18 +1,17 @@
-<?xml version="1.0" encoding="GB2312" ?>
-<!DOCTYPE sqlMap
-PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
-"http://www.ibatis.com/dtd/sql-map-2.dtd">
-<sqlMap namespace="course">
-	<!--别名区 -->
-	<typeAlias alias="CourseDO" type="com.egghead.nicefood.dal.CourseDO" />
-	<resultMap id="MiniCourseMap" class="CourseDO">
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="course">
+
+	<resultMap id="MiniCourseMap" type="com.egghead.nicefood.dal.CourseDO">
 		<result property="coid" column="gid" />
 		<result property="name" column="name" />
 		<result property="picsJson" column="pics" />
 		<result property="description" column="description" />
 	</resultMap>
-	<!--resultMap 区 -->
-	<resultMap id="CourseMap" class="CourseDO">
+
+	<resultMap id="CourseMap" type="com.egghead.nicefood.dal.CourseDO">
 		<result property="coid" column="gid" />
 		<result property="name" column="name" />
 		<result property="picsJson" column="pics" />
@@ -20,21 +19,29 @@ PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
 		<result property="materialsJson" column="materials" />
 		<result property="stepsJson" column="steps" />
 		<result property="tagsJson" column="tags" />
-		<result property="sourceUrl" column="source_url"/>
-		<result property="gmtCreate" column="gmt_create"/>
-		<result property="gmtModified" column="gmt_modified"/>
+		<result property="sourceUrl" column="source_url" />
+		<result property="gmtCreate" column="gmt_create" />
+		<result property="gmtModified" column="gmt_modified" />
 	</resultMap>
-	<select id="Course.get" resultMap="CourseDO">
-		SELECT * FROM course where coid = #coid#
+
+	<!-- id must not contains dots -->
+	<select id="get" resultMap="CourseMap">
+		SELECT * FROM course where coid =
+		#{coid}
 	</select>
-	<select id="Course.getMiniCourseByName" resultMap="CourseDO">
-		SELECT coid,name,picsJson,description FROM course where name = #name# limit #limit#;  
+
+	<select id="getMiniCourseByName" resultMap="MiniCourseMap">
+		SELECT
+		coid,name,pics,description FROM course where name = #{name} limit
+		#{limit};  
 	</select>
-	<insert id="Course.insert" parameterClass="CourseDO">
-		insert into course(name,pics,material,step,description,tags,source_url,gmt_create,gmt_modified)
-		values (#name#,#pics#,#material#,#step#,#description#,#tags#,#sourceUrl#,#now#,#now#)
-		<selectKey resultClass="Long" keyProperty="coid">
-			SELECT @@IDENTITY AS ID
+
+	<insert id="insert" parameterType="com.egghead.nicefood.dal.CourseDO">
+		insert into
+		course(name,pics,materials,steps,description,tags,source_url,gmt_create,gmt_modified)
+		values(#{name},#{picsJson},#{materialsJson},#{stepsJson},#{description},#{tagsJson},#{sourceUrl},now(),now())
+		<selectKey resultType="int" keyProperty="coid">
+			SELECT LAST_INSERT_ID() AS ID   
         </selectKey>
 	</insert>
-</sqlMap>
+</mapper>

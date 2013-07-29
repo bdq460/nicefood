@@ -22,23 +22,26 @@ public class StepDO extends BaseDO{
 		return number;
 	}
 
-	public void setNumber(int number) {
+	public StepDO setNumber(int number) {
 		this.number = number;
+		return this;
 	}
 
 	public String getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
+	public StepDO setAction(String action) {
 		this.action = action;
+		return this;
 	}
 
 	public String getPicUrl() {
 		return picUrl;
 	}
 
-	public void setPicUrl(String picUrl) {
+	public StepDO setPicUrl(String picUrl) {
 		this.picUrl = picUrl;
+		return this;
 	}
 }

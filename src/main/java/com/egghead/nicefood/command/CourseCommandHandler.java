@@ -1,9 +1,9 @@
 package com.egghead.nicefood.command;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,6 +28,9 @@ public class CourseCommandHandler implements CommandHandler{
 	
 	Logger logger = Logger.getLogger(this.getClass());
 	
+	@Resource
+	private CourseDAO courseDAO;
+	
 	@Override
 	public BaseSendMessage handle(String command, String fromUserName,
 			Map<String, Object> message) throws BaseException{
@@ -48,15 +51,7 @@ public class CourseCommandHandler implements CommandHandler{
 		}else{
 			List<CourseDO> courses;
 			try {
-				//courses = CourseDAO.getMiniCourseByName(command, Constants.MAX_NEWS_COUNT);
-				courses = new ArrayList<CourseDO>();
-				CourseDO courseDO = new CourseDO();
-				courseDO.setCoid(123);
-				courseDO.setName(command);
-				String[] pics = new String[]{"http://cul.shangdu.com/chinacul/20101222/P_158100_1__408346349.jpg"};
-				courseDO.setPics(pics);
-				courseDO.setDescription("食材简单,酸甜可口");
-				courses.add(courseDO);
+				courses = courseDAO.getMiniCourseByName(command, Constants.MAX_NEWS_COUNT);
 			} catch (Exception e) {
 				logger.error("query mini course by name error!command="+command,e);
 				throw new SysException(ErrorEnum.ERROR_S_SERVER_ERROR);
@@ -67,7 +62,7 @@ public class CourseCommandHandler implements CommandHandler{
 				responseMsg = new TextMessage(toUserName, Constants.OPEN_USERID, 0, responeContent);
 				return responseMsg;
 			}
-			logger.debug("findd " + courses.size() + " course!");
+			logger.debug("find " + courses.size() + " courses!");
 			NewsMessage newsMessage = new NewsMessage(toUserName, Constants.OPEN_USERID, 0);
 			for (CourseDO courseDO : courses ) {
 				int coid = courseDO.getCoid();

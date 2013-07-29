@@ -8,6 +8,7 @@ import com.egghead.nicefood.BaseDO;
  * 
  */
 public class CourseDO extends BaseDO{
+	
 	private int coid;
 	private String name;
 	private String[] materials;

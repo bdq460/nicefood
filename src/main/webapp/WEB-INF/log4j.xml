@@ -27,6 +27,16 @@
 		<level value="INFO" />
 		<appender-ref ref="DAL" />
 	</logger>
+	<logger name="org.apache.ibatis" >
+		<level value="debug" />
+		<appender-ref ref="DAL" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="java.sql">
+		<level value="DEBUG" />
+		<appender-ref ref="DAL" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
 	<!-- ===================================================================== -->
 	<!-- Root loggerµÄ¶¨Òå -->
 	<!-- ===================================================================== -->

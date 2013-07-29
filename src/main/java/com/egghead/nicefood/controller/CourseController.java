@@ -2,6 +2,9 @@ package com.egghead.nicefood.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.egghead.nicefood.dal.CourseDO;
+import com.egghead.nicefood.dal.StepDO;
+import com.egghead.nicefood.dao.CourseDAO;
 
 /**
  * @author zhangjun.zyk
@@ -21,21 +26,69 @@ public class CourseController {
 
 	Logger logger = Logger.getLogger(this.getClass());
 
+	@Resource
+	CourseDAO courseDAO;
+	
 	@RequestMapping("/course")
 	public ModelAndView fetchCourse(@RequestParam("coid") int coid) throws IOException, SQLException {
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("course");
 		
-		//CourseDO courseDO = CourseDAO.get(coid);
+		logger.debug("start fetch courseDO coid:"+coid);
+		CourseDO courseDO = courseDAO.get(coid);
+		logger.debug("fetch courseDO:"+courseDO);
+		
+		modelAndView.addObject("course", courseDO);
+		return modelAndView;
+	}
+	
+	@RequestMapping("/addCourse")
+	public ModelAndView addCourse() throws IOException, SQLException {
+		
 		CourseDO courseDO = new CourseDO();
-		courseDO.setCoid(123);
+		
 		courseDO.setName("荔枝豆腐");
 		courseDO.setDescription("制作简单,营养丰富,好吃,好好吃 ^_^!!! 对不住各位吃货!小厨!还在测试中~~~,即将与各位见面");
-		String[] pics = new String[]{"http://cul.shangdu.com/chinacul/20101222/P_158100_1__408346349.jpg"};
+		String[] pics = new String[]{"http://cul.shangdu.com/chinacul/20101222/P_158100_1__408346349.jpg",
+				"http://m2.img.libdd.com/farm4/2013/0727/23/54B920861E644C7A142EB2D5054205859D8067C9EAB8F_500_593.jpg"};
 		courseDO.setPics(pics);
-		modelAndView.addObject("course", courseDO);
 		
+		String[] materials = new String[]{"小葱(1根)","麻酱(2两)"};
+		courseDO.setMaterials(materials);
+		
+		StepDO[] stepDOs = new StepDO[2];
+		stepDOs[0] = new StepDO();
+		stepDOs[1] = new StepDO();
+		stepDOs[0].setNumber(1).setAction("拿出锅").setPicUrl("http://pic0");
+		stepDOs[1].setNumber(2).setAction("开始做").setPicUrl("http://pic1");
+ 		courseDO.setSteps(stepDOs);
+ 		
+ 		String[] tags = new String[]{"夜宵","甜点"};
+ 		courseDO.setTags(tags);
+ 		
+ 		courseDO.setSourceUrl("http://www.baidu.com");
+		
+		int id = courseDAO.insert(courseDO);
+		int coid = courseDO.getCoid();
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("courseTest");
+		modelAndView.addObject("id", id);
+		modelAndView.addObject("coid", coid);
+		return modelAndView;
+	}
+	
+	@RequestMapping("/miniCourse")
+	public ModelAndView miniCourse(@RequestParam("name") String name) throws IOException, SQLException {
+		
+		List<CourseDO> courseDOs = courseDAO.getMiniCourseByName(name, 3);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("courseTest");
+		modelAndView.addObject("size", courseDOs.size());
+		for( int i = 0 ; i < courseDOs.size() ; i++ ){
+			modelAndView.addObject("course"+i, courseDOs.get(i));
+		}
 		return modelAndView;
 	}
 }

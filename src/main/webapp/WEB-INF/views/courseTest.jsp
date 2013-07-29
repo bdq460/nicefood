@@ -14,6 +14,13 @@
 ${course.description}
 <p>
 制作方法
-${course.step}
+<p>
+id=${id}<br>
+coid=${coid}
+<p>
+size=${size}<br>
+course0=${course0}<br>
+course1=${course1}<br>
+course2=${course2}<br>
 </body>
 </html>
