@@ -15,12 +15,14 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
+	<!-- DispatcherServlet与ContextLoaderListener分别初始化context -->
+	<!-- contextConfigLocation不能设置为/WEB-INF/beans.xml,防止类重复初始化 -->
 	<servlet>
 		<servlet-name>dispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/beans.xml</param-value>
+			<param-value>/WEB-INF/controller.xml</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>

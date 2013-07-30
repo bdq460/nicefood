@@ -32,6 +32,11 @@ public class TextMessageProcessor implements MessageProcessor{
 	@Resource
 	CommandHandlerFactory commandHandlerFactory;
 	
+	public TextMessageProcessor(){
+		Exception e = new Exception();
+		logger.error("test component init", e);
+	}
+	
 	@Override
 	public BaseSendMessage process(Map<String, Object> message , String fromUserName) throws Exception {
 		

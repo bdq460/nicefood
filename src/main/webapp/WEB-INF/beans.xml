@@ -13,12 +13,9 @@
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
        default-autowire="byName">
  	
-	<context:annotation-config/>
-	<context:component-scan base-package="com.egghead.nicefood"/>   
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="WEB-INF/views/"/>
-		<property name="suffix" value=".jsp"/>
-	</bean>
+	<context:component-scan base-package="com.egghead.nicefood">
+		<context:exclude-filter type="regex" expression="com.egghead.nicefood.controller"/>
+	</context:component-scan>
 	<import resource="biz/biz.xml"/>
 	<import resource="biz/db.xml" />
 </beans>
