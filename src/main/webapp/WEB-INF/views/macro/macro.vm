@@ -1,0 +1,19 @@
+#macro(writeTable $eles)
+	#if( !$eles and $eles.size() > 0 )
+		return;
+	#end
+	<table>
+		#foreach($ele in $eles)
+			#if($velocityCount % 2 == 1 )
+				<tr><td>$!ele</td>
+			#else
+				<td>$!ele</td></tr>
+			#end
+			
+			##if eles count is not even then add a td element complete the table 
+			#if( $velocityCount == $eles.size() and $velocityCount % 2 == 1 )
+				<td>&nbsp;</td></tr>
+			#end
+		#end
+	</table>
+#end

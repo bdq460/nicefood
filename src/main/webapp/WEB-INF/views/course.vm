@@ -1,0 +1,95 @@
+<head>
+    <title>$!{course.name}</title>
+    <style type="text/css">
+        html{background:#f8f7f5;color:#3e3e3e;font-family: Helvetica,STHeiti STXihei,Microsoft JhengHei,Microsoft YaHei,Tohoma,Arial;}
+        dy,div,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0}
+        table{border-collapse:collapse;border:1px solid black;width:98%;}
+        td{text-align:center;border:1px solid black;font-size:36px;color:#3e3e3e;padding:20px;width:49%;}
+        p{padding-top:20px}
+        fieldset,img{border:0}
+        #wrap {
+        white-space:normal;
+        }
+        .title-name{font-size:96px;margin:20px;}
+        .section-name{font-size:48px;}
+        .text{font-size:30px;}
+        .step{margin-right:20px;line-height:60px;text-align:justify;text-justify:newspaper;}
+    </style>
+    <script>
+        function resizePics(){
+        var imageEles = document.getElementsByTagName("img");
+        if( imageEles ){
+        console.log("1");
+        for( var i = 0 ; i < imageEles.length ; i++ ){
+            var imageEle = imageEles[i];
+            console.log("imageEle");
+            console.log(imageEle);
+            resizePic(imageEle);
+            }
+            }
+            }
+            function resizePic(imageEle){
+            if( !imageEle ){
+            console.info("not found image");
+            return; 
+            }
+            var imageHeight = imageEle.height > 0 ? imageEle.height : 1;
+            var imageRate = imageEle.width/imageEle.height;
+            console.info(imageRate);
+            var imageWidth=document.body.scrollWidth;
+            console.info(imageWidth);
+            imageHeight=imageWidth / imageRate;
+            console.info(imageHeight);
+            imageEle.width=imageWidth * 0.99;
+            imageEle.height=imageHeight * 0.99;
+            imageEle.class="pdding:10px";
+            }
+</script>
+</head>
+<body onload="resizePics()">
+    <div id="wrap" class="page-content">
+        <div id="title">
+            <font class="title-name">$!{course.name}</font>
+        </div>
+        <div id="pic">
+            <p>
+                #set($pics=$!course.pics)
+                <img id="cate_pic" src="$!pics.get(0)" title="$!{course.name}"/>
+            </p>
+        </div>
+        <div id="content">
+            <p>
+                <font class="section-name">简介</font>
+                <p class="text">
+                    $!{course.description}
+                    <span style="height:5px;display:block"></span>
+                </p>
+            </p>
+            <p>
+                <font class="section-name">食材</font>
+                <br/>
+                <p class="text">
+                    #writeTable($!{course.materials})
+                    <span style="height:5px;display:block"></span>
+                </p>
+            </p>
+            <p>
+                <font class="section-name">做法</font>
+                <br/>
+                <p class="text">
+                    #foreach($step in $!{course.steps})
+                        <font class="step">第$step.number步:$step.action</font>
+                        <br/>
+			<span style="height:5px;display:block"></span>
+                        #if($step.picUrl)
+                            <img src="$step.picUrl"/>
+                            <br/>
+                        #end
+                    #end
+                    <span style="height:5px;display:block"></span>
+                </p>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

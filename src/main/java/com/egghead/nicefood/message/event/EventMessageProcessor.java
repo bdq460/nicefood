@@ -24,6 +24,9 @@ public class EventMessageProcessor implements MessageProcessor{
 
 	Logger logger = Logger.getLogger(this.getClass());
 	
+	String welcomeMessage = "Hi 非常感谢关注'"+Constants.OPEN_USERNAME+"',美食尽在这里!输入菜名即可找到制作教程!口水忍不住了!吃货们,开始干吧![偷笑]";
+	String byeMessage = "Hi 感谢您的关注,小厨是您的朋友forever！";
+	
 	@Override
 	public BaseSendMessage process(Map<String, Object> message , String fromUserName) throws Exception {
 		
@@ -41,10 +44,10 @@ public class EventMessageProcessor implements MessageProcessor{
 		String responeContent = null;
 		switch ( event ) {
 			case subscribe:
-				responeContent = "Hi 非常感谢关注'"+Constants.OPEN_USERNAME+"',美食尽在这里哟！";
+				responeContent = welcomeMessage;
 			break;
 			case unsubscribe:
-				responeContent = "Hi 感谢您的关注,美食forever！";
+				responeContent = byeMessage;
 			break;	
 			case CLICK:
 				//responeContent = "Hi 我已经接收到了你发出的消息'"+content+"',可惜本账号正在测试请您谅解！";

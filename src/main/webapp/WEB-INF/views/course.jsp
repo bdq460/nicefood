@@ -14,6 +14,8 @@
 ${course.description}
 <p>
 制作方法
-${course.step}
+${course.steps[0]}<br>
+${course.steps[1]}<br>
+${course.steps[2]}<br>
 </body>
 </html>

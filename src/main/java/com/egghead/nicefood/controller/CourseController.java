@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.egghead.nicefood.dal.CourseDO;
 import com.egghead.nicefood.dal.StepDO;
 import com.egghead.nicefood.dao.CourseDAO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author zhangjun.zyk
@@ -43,8 +44,28 @@ public class CourseController {
 		return modelAndView;
 	}
 	
+	//requestParam可获取get与post方法传递的参数
 	@RequestMapping("/addCourse")
-	public ModelAndView addCourse() throws IOException, SQLException {
+	public ModelAndView addCourse(@RequestParam("course") String courseJson) throws IOException, Exception {
+		
+		try{
+			ObjectMapper objmapper = new ObjectMapper();
+			CourseDO courseDO = objmapper.readValue(courseJson, CourseDO.class);	
+			int id = courseDAO.insert(courseDO);
+			int coid = courseDO.getCoid();
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("addCourseResult");
+			modelAndView.addObject("id", id);
+			modelAndView.addObject("coid", coid);
+			return modelAndView;
+		}catch (Exception e) {
+			logger.error("addCourse failed!course="+courseJson,e);
+			throw e;
+		}
+	}
+	
+	@RequestMapping("/addTestCourse")
+	public ModelAndView addTestCourse() throws IOException, SQLException {
 		
 		CourseDO courseDO = new CourseDO();
 		

@@ -27,6 +27,10 @@ public class CourseDAO extends BaseDAO{
 	
 	private void convertJsonToArray(CourseDO courseDO){
 		
+		if( courseDO == null ){
+			return;
+		}
+		
 		ObjectMapper mapper = new ObjectMapper(); 
 		
 		try{
@@ -59,6 +63,10 @@ public class CourseDAO extends BaseDAO{
 	}
 	
 	private void convertArrayToJson(CourseDO courseDO){
+		
+		if( courseDO == null ){
+			return;
+		}
 		
 		ObjectMapper mapper = new ObjectMapper(); 
 		

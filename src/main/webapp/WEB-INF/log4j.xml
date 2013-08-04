@@ -14,7 +14,7 @@
 	<appender name="DAL"
         class="org.apache.log4j.DailyRollingFileAppender">  
         <param name="File" value="../logs/nicefood.log" />
-        <param name="Encoding" value="GBK"/>
+        <param name="Encoding" value="UTF8"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
         <layout class="org.apache.log4j.PatternLayout">  
             <param name="ConversionPattern" value="%d %-5p %m %n" />  
@@ -33,6 +33,11 @@
 		<appender-ref ref="CONSOLE" />
 	</logger>
 	<logger name="java.sql">
+		<level value="DEBUG" />
+		<appender-ref ref="DAL" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="org.springframework">
 		<level value="DEBUG" />
 		<appender-ref ref="DAL" />
 		<appender-ref ref="CONSOLE" />

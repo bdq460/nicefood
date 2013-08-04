@@ -1,6 +1,7 @@
 package com.egghead.nicefood.dal;
 
 import com.egghead.nicefood.BaseDO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author zhangjun.zyk 
@@ -10,16 +11,23 @@ import com.egghead.nicefood.BaseDO;
 public class CourseDO extends BaseDO{
 	
 	private int coid;
+	@JsonProperty("name")
 	private String name;
+	@JsonProperty("materials")
 	private String[] materials;
 	private String materialsJson;
+	@JsonProperty("pics")
 	private String[] pics;
 	private String picsJson;
+	@JsonProperty("steps")
 	private StepDO[] steps;
 	private String stepsJson;
+	@JsonProperty("tags")
 	private String[] tags;
 	private String tagsJson;
+	@JsonProperty("description")
 	private String description;
+	@JsonProperty("sourceUrl")
 	private String sourceUrl;
 	private String gmtCreate;
 	private String gmtModified;

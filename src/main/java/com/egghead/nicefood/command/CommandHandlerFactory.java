@@ -1,5 +1,7 @@
 package com.egghead.nicefood.command;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,7 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandHandlerFactory {
 
+	@Resource
+	private CourseCommandHandler courseCommandHandler;
+	
 	public CommandHandler fetchHandlerHandler( CommandTypeEnum commandTyp ){
-		return new CourseCommandHandler();
+		return courseCommandHandler;
 	}
 }

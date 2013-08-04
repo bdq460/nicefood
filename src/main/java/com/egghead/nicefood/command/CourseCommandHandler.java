@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import com.egghead.nicefood.Constants;
 import com.egghead.nicefood.check.BaseException;
@@ -24,6 +25,7 @@ import com.egghead.nicefood.message.text.TextMessage;
  * @since 2013-7-28 下午08:01:30
  * 
  */
+@Component
 public class CourseCommandHandler implements CommandHandler{
 	
 	Logger logger = Logger.getLogger(this.getClass());
