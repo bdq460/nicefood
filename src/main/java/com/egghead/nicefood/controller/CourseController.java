@@ -2,9 +2,12 @@ package com.egghead.nicefood.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -110,6 +113,23 @@ public class CourseController {
 		for( int i = 0 ; i < courseDOs.size() ; i++ ){
 			modelAndView.addObject("course"+i, courseDOs.get(i));
 		}
+		return modelAndView;
+	}
+	
+	@RequestMapping("/test")
+	public ModelAndView test(HttpServletRequest request, 
+	        HttpServletResponse response) throws IOException, SQLException {
+		
+		logger.debug("-------request header start---------");
+		Enumeration<String> headerNames = request.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String header = (String) headerNames.nextElement();
+			String value = request.getHeader(header);
+			logger.debug(header+":"+value);
+		}
+		logger.debug("-------request header end-----------");
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("courseTest");
 		return modelAndView;
 	}
 }

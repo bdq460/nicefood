@@ -38,12 +38,10 @@ public class FileAccessor {
 	final static String HOST = "115.28.47.106";
 
 	public static void main(String[] args) throws Exception {
-		File sourceFile = new File(
-				"D:/personal/learn/weixin/projects/nicefood.txt");
-		File recordFile = new File(
-				"D:/personal/learn/weixin/projects/record.txt");
-		File errorFile = new File(
-		"D:/personal/learn/weixin/projects/error.txt");
+		String dataPath = "D:/personal/learn/weixin/projects/data/";
+		File sourceFile = new File(dataPath+"nicefood.txt");
+		File recordFile = new File(dataPath+"record.txt");
+		File errorFile = new File(dataPath+"error.txt");
 		upload(sourceFile, recordFile,errorFile);
 		//System.out.println(trimS(". fad"));
 		//String mm = "1247	TRUE	FALSE	鸡蛋青瓜炒虾仁	http://bcs.duapp.com/xiachufangnew/recipe_pic/526/aa/cf/175296.1.jpg	家常菜#快手菜#		虾仁(200克)#青瓜(半条)#鸡蛋(2个)#生姜()#葱()#生抽()#料酒()#生粉(少许)#	\"#SNUM#1#SACT#将虾仁挑去沙线，放入少许盐、料酒腌制二十分钟#SNUM#2#SACT#青瓜洗净先切成约3厘米的段,再将其切成片;鸡蛋打散成蛋液，姜切片，葱切成段并将葱白与葱叶分开#SNUM#3#SACT#热锅放油，倒入蛋液，快速划炒成小块状后舀出待用#SNUM#4#SACT#锅内再放油，下入姜片与葱白爆香，再放入腌制好的虾仁，快速翻炒几下后放入青瓜，大火翻炒一分钟左右放入事先炒好的鸡蛋#SNUM#5#SACT#加入适量的盐、葱段、生抽炒匀，再倒入水淀粉勾薄芡即可\"	http://www.xiachufang.com/recipe/175296/";
@@ -157,7 +155,7 @@ public class FileAccessor {
 	}
 
 	public static String trimS(String str){
-		return StringUtils.strip(str, " .．");
+		return StringUtils.strip(str, " .．\"");
 	}
 	
 	public static CourseDO parseCourse(String fline ) {

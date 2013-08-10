@@ -10,7 +10,9 @@
         #wrap {
         white-space:normal;
         }
-        .title-name{font-size:96px;margin:20px;}
+	.fanme{font-size:36px;font-weight:800;margin-left:20px;}
+	#pic{position:relative;top:10px;}
+        .title-name{font-size:96px;margin-left:20px;}
         .section-name{font-size:48px;}
         .text{font-size:30px;}
         .step{margin-right:20px;line-height:60px;text-align:justify;text-justify:newspaper;}
@@ -48,9 +50,12 @@
 </head>
 <body onload="resizePics()">
     <div id="wrap" class="page-content">
-        <div id="title">
+        <div id="title" width="100%">
             <font class="title-name">$!{course.name}</font>
-        </div>
+	</div>
+	<div>
+	    <font class="fanme" style="position: relative;top: 20px;">From:"美味厨房"(微信号:nice-food)</font>
+	<div>
         <div id="pic">
             <p>
                 #set($pics=$!course.pics)
@@ -90,6 +95,14 @@
                 </p>
             </p>
         </div>
+    </div>
+    <div style="text-align:center">
+	<hr/>
+	<font class="fanme">更多美味,欢迎关注"美味厨房"(微信号:nice-food)</font>
+        <hr/>
+	<br/>
+	<br/>
+	<span style="height:20px;display:block"></span>
     </div>
 </body>
 </html>
