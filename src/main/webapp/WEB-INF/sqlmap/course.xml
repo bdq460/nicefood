@@ -32,8 +32,19 @@
 
 	<select id="getMiniCourseByName" resultMap="MiniCourseMap">
 		SELECT
-		coid,name,pics,description FROM course where name = #{name} limit
-		#{limit};  
+		coid,name,pics,description FROM course where name = #{name} 
+		<choose>
+		    <when test="order == 0">
+		      order by coid asc
+		    </when>
+		    <when test="order == 1">
+		      order by coid desc
+		    </when>
+		    <when test="order == 2">
+		      order by rand()
+		    </when>
+  		</choose>
+		limit #{limit};  
 	</select>
 
 	<insert id="insert" parameterType="com.egghead.nicefood.dal.CourseDO">
@@ -44,4 +55,22 @@
 			SELECT LAST_INSERT_ID() AS ID   
         </selectKey>
 	</insert>
+	
+	<select id="getMiniCourseByMaterial" resultMap="MiniCourseMap">
+		 <bind name="pattern" value="'%' + name + '%'" />
+		SELECT
+		coid,name,pics,description FROM course where materials like '${pattern}'
+		<choose>
+		    <when test="order == 0">
+		      order by coid asc
+		    </when>
+		    <when test="order == 1">
+		      order by coid desc
+		    </when>
+		    <when test="order == 2">
+		      order by rand()
+		    </when>
+  		</choose>
+		limit #{limit};  
+	</select>
 </mapper>

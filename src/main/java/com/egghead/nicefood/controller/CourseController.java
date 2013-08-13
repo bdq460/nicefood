@@ -105,7 +105,7 @@ public class CourseController {
 	@RequestMapping("/miniCourse")
 	public ModelAndView miniCourse(@RequestParam("name") String name) throws IOException, SQLException {
 		
-		List<CourseDO> courseDOs = courseDAO.getMiniCourseByName(name, 3);
+		List<CourseDO> courseDOs = courseDAO.getMiniCourseByName(name, 3 , 2);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("courseTest");

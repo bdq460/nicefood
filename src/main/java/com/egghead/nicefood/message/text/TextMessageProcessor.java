@@ -38,6 +38,9 @@ public class TextMessageProcessor implements MessageProcessor{
 		String content = (String)message.get(Constants.CONTENT);
 		BaseSendMessage responseMsg;
 		
+		//去除空格
+		content = content.trim();
+		
 		CommandTypeEnum commandType = commandTypeParser.parse(content);
 		CommandHandler commandHandler = commandHandlerFactory.fetchHandlerHandler(commandType);
 		responseMsg = commandHandler.handle(content,fromUserName,message);

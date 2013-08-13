@@ -18,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.egghead.nicefood.Constants;
 import com.egghead.nicefood.biz.BizEngine;
 import com.egghead.nicefood.check.WeixinMessageChecker;
+import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.MessageTransformer;
+import com.egghead.nicefood.message.MessageTypeEnum;
+import com.egghead.nicefood.message.text.TextMessage;
 
 /**
  * @author zhangjun.zyk
@@ -121,6 +125,24 @@ public class MessageController {
 			if (StringUtils.isNotBlank(resultMessage)) {
 				response.getWriter().write(resultMessage);
 			}
+			
+			//response.getWriter().flush();
+			
+			logger.info("send message to me");
+			//TODO 给我发mail消息
+			/*
+			String responeContent = "Hi 收到类型为'"+messageMap.get(Constants.MSGTYPE)+"'的消息,请注意！";
+			if( Constants.MSGTYPE.equals(MessageTypeEnum.text.toString()) ){
+				responeContent = responeContent + "消息内容为" + messageMap.get(Constants.CONTENT);
+			}
+			
+			BaseSendMessage responseMsg = new TextMessage(Constants.OPEN_USERID, Constants.OPEN_USERID, 0, responeContent);
+			String responseMsgText = MessageTransformer.message2Xml(responseMsg);
+			logger.info("send message content " + responseMsgText);
+			if (StringUtils.isNotBlank(responseMsgText)) {
+				response.getWriter().write(responseMsgText);
+			}
+			*/
 			response.getWriter().flush();
 		} catch (Exception e) {
 			logger.error(

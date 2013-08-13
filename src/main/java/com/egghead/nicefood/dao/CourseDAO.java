@@ -110,13 +110,15 @@ public class CourseDAO extends BaseDAO{
 	 * 
 	 * @param name
 	 * @param limit
+	 * @param order 排序规则 0.id升序 1.id降序 2.随机排序 
 	 * @return
 	 * @throws SQLException
 	 */
-	public List<CourseDO> getMiniCourseByName(String name,int limit) throws SQLException{
+	public List<CourseDO> getMiniCourseByName(String name,int limit,int order) throws SQLException{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("name", name);
 		params.put("limit", limit);
+		params.put("order", order);
 		List<CourseDO> courses = sqlSessionTemplate.selectList("getMiniCourseByName", params);
 		for( CourseDO courseDO : courses ){
 			convertJsonToArray(courseDO);
@@ -136,5 +138,31 @@ public class CourseDAO extends BaseDAO{
 	
 	public static void main(String[] args) throws UnsupportedEncodingException {
 		System.out.println(URLEncoder.encode("鸡丁","UTF8"));
+	}
+
+	/**
+	 * 按照食材查出CourseDO部分数据，模糊匹配
+	 * 1.id
+	 * 2.name
+	 * 3.pic
+	 * 4.desc
+	 * 
+	 * @param name
+	 * @param limit
+	 * @param order 排序规则 0.id升序 1.id降序 2.随机排序 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<CourseDO> getMiniCourseByMaterial(String name,
+			int limit, int order) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("name", name);
+		params.put("limit", limit);
+		params.put("order", order);
+		List<CourseDO> courses = sqlSessionTemplate.selectList("getMiniCourseByMaterial", params);
+		for( CourseDO courseDO : courses ){
+			convertJsonToArray(courseDO);
+		}
+		return courses;
 	}
 }
