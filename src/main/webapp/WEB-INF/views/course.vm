@@ -17,9 +17,10 @@
         .text{font-size:30px;}
         .step{margin-right:20px;line-height:60px;text-align:justify;text-justify:newspaper;}
     </style>
+	<script src="source/jquery-1.10.2.min.js" language="JavaScript"></script>
     <script>
         function resizePics(){
-        var imageEles = document.getElementsByTagName("img");
+        var imageEles = $("img[class='courseImg']");
         if( imageEles ){
         console.log("1");
         for( var i = 0 ; i < imageEles.length ; i++ ){
@@ -59,7 +60,7 @@
         <div id="pic">
             <p>
                 #set($pics=$!course.pics)
-                <img id="cate_pic" src="$!pics.get(0)" title="$!{course.name}"/>
+                <img class='courseImg' id="cate_pic" src="$!pics.get(0)" title="$!{course.name}"/>
             </p>
         </div>
         <div id="content">
@@ -87,7 +88,7 @@
                         <br/>
 			<span style="height:5px;display:block"></span>
                         #if($step.picUrl)
-                            <img src="$step.picUrl"/>
+                            <img src="$step.picUrl" class='courseImg'/>
                             <br/>
                         #end
                     #end
@@ -104,5 +105,8 @@
 	<br/>
 	<span style="height:20px;display:block"></span>
     </div>
+	<div style="text-align:center;display:none;">
+		<script src="http://s96.cnzz.com/stat.php?id=5602100&web_id=5602100&show=pic" language="JavaScript"></script>
+	</div>
 </body>
 </html>

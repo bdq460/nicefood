@@ -47,6 +47,8 @@ public class MessageController {
 			@RequestParam("timestamp") String timestamp,
 			@RequestParam("nonce") String nonce,
 			@RequestParam("echostr") String echostr) throws IOException {
+		
+		logger.debug("signature="+signature+",timestamp="+timestamp+",nonce="+nonce+",echostr="+echostr);
 		boolean isFromWX = checkIsFromWX(signature, timestamp, nonce);
 		String responseText = null;
 		if (isFromWX) {

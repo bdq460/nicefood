@@ -55,7 +55,7 @@ public class CourseCommandHandler implements CommandHandler{
 			try {
 				courses = courseDAO.getMiniCourseByName(command, Constants.MAX_NEWS_COUNT,2);
 				if(courses == null || courses.size() == 0 ){//若按照名称未没找到course，则尝试按照食材查找
-					courses = courseDAO.getMiniCourseByMaterial(command, Constants.MAX_NEWS_COUNT,2);
+					courses = courseDAO.getMiniCourseByMaterial(command, Constants.MAX_NEWS_COUNT,3);
 				}
 			} catch (Exception e) {
 				logger.error("query mini course by name error!command="+command,e);

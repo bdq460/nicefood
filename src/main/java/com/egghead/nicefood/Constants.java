@@ -30,7 +30,7 @@ public class Constants {
 	public static final int MAX_NEWS_COUNT = 3;
 	
 	//Course信息获取url,${coid}进行变量替换
-	public static final String COURSE_URL = "http://115.28.47.106/nicefood/course.do?coid=${coid}";
+	public static final String COURSE_URL = "http://dololo.cn/nicefood/course.do?coid=${coid}";
 }
 
 
