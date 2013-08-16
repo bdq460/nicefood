@@ -165,4 +165,22 @@ public class CourseDAO extends BaseDAO{
 		}
 		return courses;
 	}
+	
+	public int getCourseCountByModified(String gmtModified){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("gmtModified", gmtModified);
+		return sqlSessionTemplate.<Integer>selectOne("getCourseCountByModified", params);
+	}
+	
+	public List<CourseDO> getCourseByModified(String gmtModified , int start , int pageSize){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("gmtModified", gmtModified);
+		params.put("start", start);
+		params.put("pageSize", pageSize);
+		List<CourseDO> courses = sqlSessionTemplate.selectList("getCourseByModified", params);
+		for( CourseDO courseDO : courses ){
+			convertJsonToArray(courseDO);
+		}
+		return courses;
+	}
 }

@@ -32,7 +32,7 @@
 		<property name="resourceLoaderPath">
 			<value>WEB-INF/views/</value>
 		</property>
-		<property name="configLocation" value="WEB-INF/velocity.properties" />
+		<property name="configLocation" value="WEB-INF/conf/velocity.properties" />
 	</bean>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">

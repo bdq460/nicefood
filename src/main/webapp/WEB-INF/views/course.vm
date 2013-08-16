@@ -53,9 +53,11 @@
     <div id="wrap" class="page-content">
         <div id="title" width="100%">
             <font class="title-name">$!{course.name}</font>
-	</div>
+		</div>
+    </div>
 	<div>
 	    <font class="fanme" style="position: relative;top: 20px;">From:"美味厨房"(微信号:nice-food)</font>
+    </div>
 	<div>
         <div id="pic">
             <p>

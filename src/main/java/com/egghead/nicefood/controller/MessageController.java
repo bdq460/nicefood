@@ -18,13 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.egghead.nicefood.Constants;
 import com.egghead.nicefood.biz.BizEngine;
 import com.egghead.nicefood.check.WeixinMessageChecker;
-import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.MessageTransformer;
-import com.egghead.nicefood.message.MessageTypeEnum;
-import com.egghead.nicefood.message.text.TextMessage;
 
 /**
  * @author zhangjun.zyk

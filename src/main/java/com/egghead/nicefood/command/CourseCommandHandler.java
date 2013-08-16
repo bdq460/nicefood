@@ -15,6 +15,8 @@ import com.egghead.nicefood.check.SysException;
 import com.egghead.nicefood.dal.CourseDO;
 import com.egghead.nicefood.dao.CourseDAO;
 import com.egghead.nicefood.error.ErrorEnum;
+import com.egghead.nicefood.lucene.CourseFieldEnum;
+import com.egghead.nicefood.lucene.CourseLuceneIndex;
 import com.egghead.nicefood.message.BaseSendMessage;
 import com.egghead.nicefood.message.news.NewsMessage;
 import com.egghead.nicefood.message.news.NewsMessageItem;
@@ -29,6 +31,9 @@ import com.egghead.nicefood.message.text.TextMessage;
 public class CourseCommandHandler implements CommandHandler{
 	
 	Logger logger = Logger.getLogger(this.getClass());
+	
+	@Resource
+	private CourseLuceneIndex courseLuceneIndex;
 	
 	@Resource
 	private CourseDAO courseDAO;
@@ -53,10 +58,20 @@ public class CourseCommandHandler implements CommandHandler{
 		}else{
 			List<CourseDO> courses;
 			try {
-				courses = courseDAO.getMiniCourseByName(command, Constants.MAX_NEWS_COUNT,2);
+				logger.debug("query by course name");
+				courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.NAME);
 				if(courses == null || courses.size() == 0 ){//若按照名称未没找到course，则尝试按照食材查找
-					courses = courseDAO.getMiniCourseByMaterial(command, Constants.MAX_NEWS_COUNT,3);
+					logger.debug("query by material name");
+					courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.MATREIAL);
 				}
+				if(courses == null || courses.size() == 0 ){//若未没找到course，则尝试按照tag查找
+					logger.debug("query by tag name");
+					courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.TAG);
+				}
+				//courses = courseDAO.getMiniCourseByName(command, Constants.MAX_NEWS_COUNT,2);
+				//if(courses == null || courses.size() == 0 ){//若按照名称未没找到course，则尝试按照食材查找
+					//courses = courseDAO.getMiniCourseByMaterial(command, Constants.MAX_NEWS_COUNT,3);
+				//}
 			} catch (Exception e) {
 				logger.error("query mini course by name error!command="+command,e);
 				throw new SysException(ErrorEnum.ERROR_S_SERVER_ERROR);

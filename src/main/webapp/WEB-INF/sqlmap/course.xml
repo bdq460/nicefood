@@ -73,4 +73,15 @@
   		</choose>
 		limit #{limit};  
 	</select>
+	
+	<select id="getCourseByModified" resultMap="CourseMap">
+		select coid,name,materials,pics,description,tags,gmt_modified
+		from course 
+		where gmt_modified > #{gmtModified}
+		limit #{start},#{pageSize};
+	</select>
+	
+	<select id="getCourseCountByModified" resultType="int">
+		select count(*) from course where gmt_modified > #{gmtModified}
+	</select>
 </mapper>
