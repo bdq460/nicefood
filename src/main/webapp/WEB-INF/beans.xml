@@ -14,6 +14,7 @@
        default-autowire="byName">
  	
 	<context:component-scan base-package="com.egghead.nicefood">
+		<!-- 防止与controller重复配置 -->
 		<context:exclude-filter type="regex" expression="com.egghead.nicefood.controller"/>
 	</context:component-scan>
 	<import resource="biz/biz.xml"/>

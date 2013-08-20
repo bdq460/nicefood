@@ -81,7 +81,8 @@ public class MessageController {
 			return;
 		}
 
-		Enumeration<String> headerNames = request.getHeaderNames();
+		@SuppressWarnings("unchecked")
+		Enumeration<String> headerNames = (Enumeration<String>)request.getHeaderNames();
 		logger.debug("------ request header start -------");
 		while (headerNames.hasMoreElements()) {
 			String headerName = headerNames.nextElement();

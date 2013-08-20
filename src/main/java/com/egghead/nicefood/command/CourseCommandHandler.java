@@ -7,13 +7,13 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.lucene.search.FieldComparator;
 import org.springframework.stereotype.Component;
 
 import com.egghead.nicefood.Constants;
 import com.egghead.nicefood.check.BaseException;
 import com.egghead.nicefood.check.SysException;
 import com.egghead.nicefood.dal.CourseDO;
-import com.egghead.nicefood.dao.CourseDAO;
 import com.egghead.nicefood.error.ErrorEnum;
 import com.egghead.nicefood.lucene.CourseFieldEnum;
 import com.egghead.nicefood.lucene.CourseLuceneIndex;
@@ -36,7 +36,7 @@ public class CourseCommandHandler implements CommandHandler{
 	private CourseLuceneIndex courseLuceneIndex;
 	
 	@Resource
-	private CourseDAO courseDAO;
+	private FieldComparator<?> fieldComparator;
 	
 	@Override
 	public BaseSendMessage handle(String command, String fromUserName,
@@ -58,15 +58,16 @@ public class CourseCommandHandler implements CommandHandler{
 		}else{
 			List<CourseDO> courses;
 			try {
+				
 				logger.debug("query by course name");
-				courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.NAME);
+				courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.NAME , fieldComparator);
 				if(courses == null || courses.size() == 0 ){//若按照名称未没找到course，则尝试按照食材查找
 					logger.debug("query by material name");
-					courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.MATREIAL);
+					courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.MATREIAL, fieldComparator);
 				}
 				if(courses == null || courses.size() == 0 ){//若未没找到course，则尝试按照tag查找
 					logger.debug("query by tag name");
-					courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.TAG);
+					courses = courseLuceneIndex.search(command, Constants.MAX_NEWS_COUNT, CourseFieldEnum.TAG , fieldComparator);
 				}
 				//courses = courseDAO.getMiniCourseByName(command, Constants.MAX_NEWS_COUNT,2);
 				//if(courses == null || courses.size() == 0 ){//若按照名称未没找到course，则尝试按照食材查找

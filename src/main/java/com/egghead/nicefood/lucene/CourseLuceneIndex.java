@@ -25,8 +25,12 @@ import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.queryParser.QueryParser.Operator;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.FieldComparator;
+import org.apache.lucene.search.FieldComparatorSource;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -151,7 +155,7 @@ public class CourseLuceneIndex {
 		return doc;
 	}
 	
-	public List<CourseDO> search(String keywords , int counts , CourseFieldEnum courseField)
+	public List<CourseDO> search(String keywords , int counts , CourseFieldEnum courseField , final FieldComparator<?> fieldComparator )
 			throws CorruptIndexException, IOException {
 		
 		if (StringUtils.isBlank(keywords) || courseField == null ) {
@@ -183,8 +187,24 @@ public class CourseLuceneIndex {
 		}
 		query.add(fieldQuery, BooleanClause.Occur.MUST);
 		
-		TopDocs docs = searcher.search(query, counts);
-		return parseDocs(docs);
+		TopDocs topDocs = null;
+		if( fieldComparator == null ){
+			topDocs = searcher.search(query, counts);
+		}else {
+			
+			Sort sort = new Sort(new SortField(courseField.toString(), new FieldComparatorSource() {
+				
+				private static final long serialVersionUID = -5165274913716136490L;
+
+				@Override
+				public FieldComparator<?> newComparator(String fieldname, int numHits,
+						int sortPos, boolean reversed) throws IOException {
+					return fieldComparator;
+				}
+			}));
+			topDocs = searcher.search(query , counts , sort);
+		}
+		return parseDocs(topDocs);
 	}
 
 	private List<CourseDO> parseDocs(TopDocs docs) throws CorruptIndexException,
