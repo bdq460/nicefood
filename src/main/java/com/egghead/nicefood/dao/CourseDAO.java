@@ -1,19 +1,18 @@
 package com.egghead.nicefood.dao;
 
+import com.egghead.nicefood.dal.CourseDO;
+import com.egghead.nicefood.dal.StepDO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
-import com.egghead.nicefood.dal.CourseDO;
-import com.egghead.nicefood.dal.StepDO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author zhangjun.zyk 

@@ -9,5 +9,7 @@
 # eclipse project Files #
 /.settings/*
 /target
+/.idea/*
+/out/*
 *.project
 *.classpath

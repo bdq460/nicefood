@@ -1,7 +1,8 @@
 package com.egghead.nicefood.dao;
 
-import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
+
+import javax.annotation.Resource;
 
 /**
  * @author zhangjun.zyk 
